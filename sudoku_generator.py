@@ -23,29 +23,25 @@ class SudokuGenerator:
             print()
 
     def valid_in_row(self, row, num):
-        for item in self.board[row]:
-            if item == num:
+        for r in self.board[row]:
+            if r == num:
                 return False
         return True
     # Determines if num is contained in the specified row (horizontal) of the board
-    # If num is already in the specified row, return False. Otherwise, return True
-    # row = the index of the row we are checking
-    # num = the value we are looking for in the row
-    # Return: boolean
 
     def valid_in_col(self, col, num):
-        for item in range(9):
-            if self.board[item][col] == num:
+        for r in range(9):
+            if self.board[r][col] == num:
                 return False
         return True
     # Determines if num is contained in the specified column (vertical) of the board
-    # If num is already in the specified col, return False. Otherwise, return True
-    # col = the index of the column we are checking
-    # num = the value we are looking for in the column
-    # Return: boolean
 
     def valid_in_box(self, row_start, col_start, num):
-        pass
+        for r in range(row_start, row_start+3):
+            for c in range(col_start, col_start+3):
+                if self.board[r][c] == num:
+                    return False
+        return True
     # Determines if num is contained in the 3x3 box specified on the board
     # If num is in the specified box starting at (row_start, col_start), return False.
     # Otherwise, return True
