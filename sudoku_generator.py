@@ -51,7 +51,48 @@ class SudokuGenerator:
     # Return: boolean
 
     def is_valid(self, row, col, num):
-        pass
+        if self.valid_in_row(row, num):
+            if self.valid_in_col(col, num):
+                if 0 <= row <= 2:
+                    if 0 <= col <= 2:
+                        # Check Box 1
+                        if self.valid_in_box(0, 0, num):
+                            return True
+                    elif 3 <= col <= 5:
+                        # Check Box 2
+                        if self.valid_in_box(0, 3, num):
+                            return True
+                    elif 6 <= col <= 8:
+                        # Check Box 3
+                        if self.valid_in_box(0, 6, num):
+                            return True
+                elif 3 <= row <= 5:
+                    if 0 <= col <= 2:
+                        # Check Box 4
+                        if self.valid_in_box(3, 0, num):
+                            return True
+                    elif 3 <= col <= 5:
+                        # Check Box 5
+                        if self.valid_in_box(3, 3, num):
+                            return True
+                    elif 6 <= col <= 8:
+                        # Check Box 6
+                        if self.valid_in_box(3, 6, num):
+                            return True
+                elif 6 <= row <= 8:
+                    if 0 <= col <= 2:
+                        # Check Box 7
+                        if self.valid_in_box(6, 0, num):
+                            return True
+                    elif 3 <= col <= 5:
+                        # Check Box 8
+                        if self.valid_in_box(6, 3, num):
+                            return True
+                    elif 6 <= col <= 8:
+                        # Check Box 9
+                        if self.valid_in_box(6, 6, num):
+                            return True
+        return False
     # Determines if it is valid to enter num at (row, col) in the board
     # This is done by checking that num is unused in the appropriate, row, column, and box
     # row, col = the row index and col index of the cell to check in the board
@@ -126,14 +167,14 @@ class SudokuGenerator:
     # Parameters: None
     # Return: None
 
-def generate_sudoku(size, removed):
-    sudoku = SudokuGenerator(size, removed)
-    sudoku.fill_values()
-    board = sudoku.get_board()
-    sudoku.remove_cells()
-    board = sudoku.get_board()
-    return board
-    # Creates a SudokuGenerator, fills its values and saves this as the solved state,
-    # removes the appropriate number of cells, and returns the representative 2D python lists of board/solution
-    # size = number of rows/columns of the board
-    # removed = number of cells to clear (set to 0)
+    def generate_sudoku(size, removed):
+        sudoku = SudokuGenerator(size, removed)
+        sudoku.fill_values()
+        board = sudoku.get_board()
+        sudoku.remove_cells()
+        board = sudoku.get_board()
+        return board
+        # Creates a SudokuGenerator, fills its values and saves this as the solved state,
+        # removes the appropriate number of cells, and returns the representative 2D python lists of board/solution
+        # size = number of rows/columns of the board
+        # removed = number of cells to clear (set to 0)
