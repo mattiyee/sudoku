@@ -86,10 +86,6 @@ class SudokuGenerator:
                             return True
         return False
     # Determines if it is valid to enter num at (row, col) in the board
-    # This is done by checking that num is unused in the appropriate, row, column, and box
-    # row, col = the row index and col index of the cell to check in the board
-    # num = the value to test if it is safe to enter in this cell
-    # Return: boolean
 
     def fill_box(self, row_start, col_start):
         for r in range(row_start, row_start+3):
