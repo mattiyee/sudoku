@@ -8,8 +8,6 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for c in range(9)] for r in range(9)]
         self.box_length = math.sqrt(row_length)
-
-        self.board[0][1] = 2
     # row_length = the number of rows/columns of the board (always 9 for this project)
     # removed_cells = an integer value that contains the number of cells to be removed
 
@@ -43,12 +41,6 @@ class SudokuGenerator:
                     return False
         return True
     # Determines if num is contained in the 3x3 box specified on the board
-    # If num is in the specified box starting at (row_start, col_start), return False.
-    # Otherwise, return True
-    # row_start, col_start = the starting indices of the box to check
-    # 	i.e. the box is from (row_start, col_start) to (row_start+2, col_start+2)
-    # num = the value we are looking for in the box
-    # Return: boolean
 
     def is_valid(self, row, col, num):
         if self.valid_in_row(row, num):
@@ -108,19 +100,13 @@ class SudokuGenerator:
                         self.board[r][c] = num
                         break
         return None
-
     # Fills the specified 3x3 box with values
-    # For each position, generates a random digit which has not yet been used in the box
-    # row_start, col_start = the starting indices of the box to check
-    # 	i.e. the box is from (row_start, col_start) to (row_start+2, col_start+2)
-    # Return: None
 
     def fill_diagonal(self):
-        pass
+        self.fill_box(0,0)
+        self.fill_box(3,3)
+        self.fill_box(6,6)
     # Fills the three boxes along the main diagonal of the board
-    # These are the boxes which start at (0,0), (3,3), and (6,6)
-    # Parameters: None
-    # Return: None
 
     def fill_remaining(self, row, col):
         if (col >= self.row_length and row < self.row_length - 1):
@@ -148,13 +134,13 @@ class SudokuGenerator:
                     return True
                 self.board[row][col] = 0
         return False
-        # Fills the remaining cells of the board, should be called after the diagonal boxes have been filled
-        # row, col = specify the coordinates of the first empty (0) cell
+    # Fills the remaining cells of the board, should be called after the diagonal boxes have been filled
+    # row, col = specify the coordinates of the first empty (0) cell
 
     def fill_values(self):
         self.fill_diagonal()
         self.fill_remaining(0, self.box_length)
-        # Constructs a solution by calling fill_diagonal and fill_remaining
+    # Constructs a solution by calling fill_diagonal and fill_remaining
 
     def remove_cells(self):
         pass
