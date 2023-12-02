@@ -3,10 +3,10 @@ from random import randint
 
 class SudokuGenerator:
 
-    def __init__(self, removed_cells, row_length=9):
+    def __init__(self, row_length, removed_cells):
         self.row_length = row_length
         self.removed_cells = removed_cells
-        self.board = [[0 for c in range(9)] for r in range(9)]
+        self.board = [[0 for c in range(row_length)] for r in range(row_length)]
         self.box_length = int(math.sqrt(row_length))
     # row_length = the number of rows/columns of the board (always 9 for this project)
     # removed_cells = an integer value that contains the number of cells to be removed
@@ -147,12 +147,22 @@ class SudokuGenerator:
                     self.board[row_index][col_index] = 0
                     break
     # Removes the appropriate number of cells from the board
+    # This is done by setting some values to 0
+    # Should be called after the entire solution has been constructed
+    #     i.e. after fill_values has been called
+    # NOTE: Be careful not to 'remove' the same cell multiple times
+    #     i.e. if a cell is already 0, it cannot be removed again
+    # Parameters: None
+    # Return: None
 
-    def generate_sudoku(size, removed):
-        sudoku = SudokuGenerator(size, removed)
-        sudoku.fill_values()
-        board = sudoku.get_board()
-        sudoku.remove_cells()
-        board = sudoku.get_board()
-        return board
-    # Creates a SudokuGenerator
+def generate_sudoku(size, removed):
+    sudoku = SudokuGenerator(size, removed)
+    sudoku.fill_values()
+    board = sudoku.get_board()
+    sudoku.remove_cells()
+    board = sudoku.get_board()
+    return board
+    # Creates a SudokuGenerator, fills its values and saves this as the solved state,
+    # removes the appropriate number of cells, and returns the representative 2D python lists of board/solution
+    # size = number of rows/columns of the board
+    # removed = number of cells to clear (set to 0)
