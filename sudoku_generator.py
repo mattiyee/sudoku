@@ -7,6 +7,8 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for c in range(9)] for r in range(9)]
         self.box_length = math.sqrt(row_length)
+
+        self.board[0][1] = 2
     # row_length = the number of rows/columns of the board (always 9 for this project)
     # removed_cells = an integer value that contains the number of cells to be removed
 
@@ -20,11 +22,10 @@ class SudokuGenerator:
             print()
 
     def valid_in_row(self, row, num):
-        for item in range(row):
+        for item in self.board[row]:
             if item == num:
                 return False
         return True
-
     # Determines if num is contained in the specified row (horizontal) of the board
     # If num is already in the specified row, return False. Otherwise, return True
     # row = the index of the row we are checking
@@ -32,11 +33,10 @@ class SudokuGenerator:
     # Return: boolean
 
     def valid_in_col(self, col, num):
-        for item in range(col):
-            if item == num:
+        for item in range(10):
+            if self.board[item][col] == num:
                 return False
         return True
-
     # Determines if num is contained in the specified column (vertical) of the board
     # If num is already in the specified col, return False. Otherwise, return True
     # col = the index of the column we are checking
