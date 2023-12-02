@@ -1,7 +1,7 @@
 import pygame
 
 black = (0, 0, 0)
-c_width, c_height = 600 / 9, 600 / 9
+c_size = 700 / 9
 
 
 class Cell:
@@ -22,8 +22,9 @@ class Cell:
     def set_sketched_value(self, value):
         self.sketched_value = value
 
-    def set(self):
-        pass
+    # def set(self):
+    #     self.selected = True
+    #     self.draw()
 
     # Function that draws the cell, along with the value inside it
     def draw(self):
@@ -31,11 +32,11 @@ class Cell:
         if self.value != 0:
             num_surf = num_font.render(str(self.value), 0, black)
             num_rect = num_surf.get_rect(
-                center=(c_height * self.row + c_height // 2, c_width * self.col + c_width // 2))
+                center=(c_size * self.row + c_size // 2, c_size * self.col + c_size // 2))
             self.screen.blit(num_surf, num_rect)
-        if self.bool:
-            pygame.draw.rect(self.screen, black,
-                             pygame.rect(self.row * c_height, self.col * c_width, c_height, c_width, 3))
+        # if self.bool:
+        #     pygame.draw.rect(self.screen, black,
+        #                      pygame.rect(self.row * c_height, self.col * c_width, c_height, c_width, 3))
 
     # If this cell has a nonzero value, that value is displayed.
     # Otherwise, no value is displayed in the cell.
