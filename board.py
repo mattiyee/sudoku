@@ -1,3 +1,2 @@
+import pygame
 class Board:
-    pass
-print("hi")
