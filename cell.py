@@ -27,9 +27,12 @@ class Cell:
         if self.value != 0:
             num_surf = num_font.render(str(self.value), 0, black)
             num_rect = num_surf.get_rect(
-                center=(c_size * self.row + c_size // 2, c_size * self.col + c_size // 2))
+                center=(c_size * self.col + c_size // 2, c_size * self.row + c_size // 2))
             self.screen.blit(num_surf, num_rect)
+
 
     # If this cell has a nonzero value, that value is displayed.
     # Otherwise, no value is displayed in the cell.
+
+
     # The cell is outlined red if it is currently selected.

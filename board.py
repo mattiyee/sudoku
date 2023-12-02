@@ -4,7 +4,7 @@ from sudoku_generator import SudokuGenerator
 
 
 class Board:
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen, difficulty): # initializes variables
         self.width = width
         self.height = height
         self.screen = screen # or = pygame.display.set_mode((self.width, self.height + 100))
@@ -20,8 +20,8 @@ class Board:
         self.selected = None
 
     def draw(self):
-        for num in range(0, 10):
-            if num % 3 == 0:
+        for num in range(0, 10): # for each row and column, draw a line
+            if num % 3 == 0: # every third line should be bolded
                 pygame.draw.line(
                     self.screen,
                     (255, 255, 255),
@@ -36,7 +36,7 @@ class Board:
                     (self.height / 9 * num, self.height),
                     6
                 )
-            else:
+            else: # if row/column not divisible by 3, then it should print a normal line
                 pygame.draw.line(
                     self.screen,
                     (255, 255, 255),
