@@ -55,7 +55,10 @@ class Board:
         self.selected.draw()
 
     def click(self, x, y):
-        pass
+        if 0 < x < self.width:
+            if 0 < y < self.height:
+                return int(x // (self.width / 9)), int(y // (self.height / 9))
+        return None
 
     def clear(self):
         pass
