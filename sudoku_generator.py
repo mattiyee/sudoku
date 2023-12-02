@@ -40,6 +40,7 @@ class SudokuGenerator:
             if item == num:
                 return False
         return True
+
     # Determines if num is contained in the specified column (vertical) of the board
     # If num is already in the specified col, return False. Otherwise, return True
     # col = the index of the column we are checking
