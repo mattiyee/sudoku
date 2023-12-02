@@ -21,8 +21,8 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((900, 900))
     pygame.display.set_caption("Sudoku")
-    # board123 = board.Board(900, 900, screen, 1)
-    # board123.draw()
+    board123 = board.Board(700, 700, screen, 1)
+    board123.draw()
 
     # Call draw_game_start()
     # draw_game_start(screen)

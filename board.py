@@ -8,13 +8,34 @@ class Board:
 
     def draw(self):
         for num in range(0, 10):
-            pygame.draw.line(
-                self.screen,
-                (255, 255, 255),
-                (0, num * 100),
-                (900, num * 100)
-
-            )
+            if num % 3 == 0:
+                pygame.draw.line(
+                    self.screen,
+                    (255, 255, 255),
+                    (0, self.width / 9 * num),
+                    (self.width, self.width / 9 * num),
+                    6
+                )
+                pygame.draw.line(
+                    self.screen,
+                    (255, 255, 255),
+                    (self.height / 9 * num, 0),
+                    (self.height / 9 * num, self.height),
+                    6
+                )
+            else:
+                pygame.draw.line(
+                    self.screen,
+                    (255, 255, 255),
+                    (0, self.width / 9 * num),
+                    (self.width, self.width / 9 * num),
+                )
+                pygame.draw.line(
+                    self.screen,
+                    (255, 255, 255),
+                    (self.height / 9 * num, 0),
+                    (self.height / 9 * num, self.height),
+                )
 
     def select(self, row, col):
         pass
