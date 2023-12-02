@@ -7,7 +7,14 @@ class Board:
         self.difficulty = difficulty
 
     def draw(self):
-        pass
+        for num in range(0, 10):
+            pygame.draw.line(
+                self.screen,
+                (255, 255, 255),
+                (0, num * 100),
+                (900, num * 100)
+
+            )
 
     def select(self, row, col):
         pass
