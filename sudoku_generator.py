@@ -147,13 +147,7 @@ class SudokuGenerator:
                     self.board[row_index][col_index] = 0
                     break
     # Removes the appropriate number of cells from the board
-    # This is done by setting some values to 0
-    # Should be called after the entire solution has been constructed
-    #     i.e. after fill_values has been called
-    # NOTE: Be careful not to 'remove' the same cell multiple times
-    #     i.e. if a cell is already 0, it cannot be removed again
-    # Parameters: None
-    # Return: None
+
 
 def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)
