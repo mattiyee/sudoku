@@ -12,7 +12,6 @@ class Cell:
         self.row = row
         self.col = col
         self.screen = screen
-        self.bool = False
 
     # Function that sets the cell’s value
     def set_cell_value(self, value):
