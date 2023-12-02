@@ -1,4 +1,5 @@
-import math,random
+import math
+from random import randint
 
 class SudokuGenerator:
 
@@ -62,7 +63,15 @@ class SudokuGenerator:
     # Return: boolean
 
     def fill_box(self, row_start, col_start):
-        pass
+        for r in range(row_start, row_start+3):
+            for c in range(col_start, col_start+3):
+                while True:
+                    num = randint(1, 9)
+                    if self.valid_in_box(row_start, col_start, num):
+                        self.board[r][c] = num
+                        break
+        return None
+
     # Fills the specified 3x3 box with values
     # For each position, generates a random digit which has not yet been used in the box
     # row_start, col_start = the starting indices of the box to check

@@ -21,8 +21,10 @@ class Cell:
     def draw(self):
         cell_font = pygame.font.Font(None, 100)  # Change the size
 
+        '''
         if self.value != 0:
             cell_surface
+        '''
 
     # If this cell has a nonzero value, that value is displayed.
     # Otherwise, no value is displayed in the cell.
