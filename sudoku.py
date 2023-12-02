@@ -85,6 +85,7 @@ if __name__ == "__main__":
 
     screen.fill(BG_COLOR)
 
+    square_size = 700
     # Call draw_game_start()
     # draw_game_start(screen)
 
@@ -107,3 +108,7 @@ if __name__ == "__main__":
                 my_sudoku.print_board()
                 # FIXME: Infinite loop, code for proper gamemode
         pygame.display.update()
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     x, y = event.pos
+            #     row = y // (square_size / 9)
+            #     col = x // (square_size / 9)

@@ -1,14 +1,27 @@
 import pygame
+from cell import Cell
+from sudoku_generator import SudokuGenerator
+
+
 class Board:
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen, difficulty): # initializes variables
         self.width = width
         self.height = height
-        self.screen = screen
+        self.screen = screen # or = pygame.display.set_mode((self.width, self.height + 100))
         self.difficulty = difficulty
+        if difficulty == 'Easy':
+            self.board = SudokuGenerator(9, 30)
+        elif difficulty == 'Medium':
+            self.board = SudokuGenerator(9, 40)
+        elif difficulty == 'Hard':
+            self.board = SudokuGenerator(9, 50)
+        # self.updated_board = self.board
+        self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
+        self.selected = None
 
     def draw(self):
-        for num in range(0, 10):
-            if num % 3 == 0:
+        for num in range(0, 10): # for each row and column, draw a line
+            if num % 3 == 0: # every third line should be bolded
                 pygame.draw.line(
                     self.screen,
                     (255, 255, 255),
@@ -23,7 +36,7 @@ class Board:
                     (self.height / 9 * num, self.height),
                     6
                 )
-            else:
+            else: # if row/column not divisible by 3, then it should print a normal line
                 pygame.draw.line(
                     self.screen,
                     (255, 255, 255),
@@ -38,10 +51,14 @@ class Board:
                 )
 
     def select(self, row, col):
-        pass
+        self.selected = Cell(self.board[row][col], row, col, self.screen)
+        self.selected.draw()
 
     def click(self, x, y):
-        pass
+        if 0 < x < self.width:
+            if 0 < y < self.height:
+                return int(x // (self.width / 9)), int(y // (self.height / 9))
+        return None
 
     def clear(self):
         pass
