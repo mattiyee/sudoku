@@ -105,7 +105,7 @@ class SudokuGenerator:
     # Fills the three boxes along the main diagonal of the board
 
     def fill_remaining(self, row, col):
-        if (col >= self.row_length and row < self.row_length - 1):
+        if col >= self.row_length and row < self.row_length - 1:
             row += 1
             col = 0
         if row >= self.row_length and col >= self.row_length:

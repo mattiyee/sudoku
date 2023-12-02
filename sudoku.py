@@ -32,5 +32,8 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN: # add: <and not gameover:>
+                pass
+                if
         pygame.display.update()
           #  if event.type == pygame.display.set_mode(900, 900)
