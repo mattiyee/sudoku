@@ -1,4 +1,5 @@
 import pygame, sys
+from sudoku_generator import SudokuGenerator
 
 # Function that draws the game start screen
 def draw_game_start(screen):
@@ -11,8 +12,14 @@ def draw_game_over(screen):
 
 if __name__ == "__main__":
 
+    '''
+    my_sudoku = SudokuGenerator(0)
+    my_sudoku.print_board()
+    '''
+
+    '''
     pygame.init()
-    screen = pygame.dispaly.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Sudoku")
 
     # Call draw_game_start()
@@ -24,3 +31,4 @@ if __name__ == "__main__":
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.
+    '''
