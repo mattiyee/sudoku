@@ -2,26 +2,22 @@ import math,random
 
 class SudokuGenerator:
 
-    def __init__(self, row_length, removed_cells):
+    def __init__(self, removed_cells, row_length=9):
         self.row_length = row_length
         self.removed_cells = removed_cells
-        # self.board = FIXME (a 2D list of ints to represent the board)
+        self.board = [[0 for c in range(9)] for r in range(9)]
         self.box_length = math.sqrt(row_length)
     # row_length = the number of rows/columns of the board (always 9 for this project)
     # removed_cells = an integer value that contains the number of cells to be removed
 
     def get_board(self):
-        pass
-    # Returns a 2D python list of numbers which represents the board
-    # Parameters: None
-    # Return: list[list]
+        return self.board
 
     def print_board(self):
-        pass
-    # Displays the board to the console
-    # This is not strictly required, but it may be useful for debugging purposes
-    # Parameters: None
-    # Return: None
+        for r in range(9):
+            for c in range(9):
+                print(self.board[r][c], end="")
+            print()
 
     def valid_in_row(self, row, num):
         pass
