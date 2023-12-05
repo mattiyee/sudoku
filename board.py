@@ -7,7 +7,7 @@ class Board:
     def __init__(self, width, height, screen, difficulty): # initializes variables
         self.width = width
         self.height = height
-        self.screen = screen # or = pygame.display.set_mode((self.width, self.height + 100))
+        self.screen = screen
         self.difficulty = difficulty
         # self.updated_board = self.board
         self.board = None

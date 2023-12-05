@@ -158,7 +158,8 @@ class SudokuGenerator:
                     break
     # Removes the appropriate number of cells from the board
 
-
+    def __getitem__(self, item):
+        pass
 
 def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)

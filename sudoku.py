@@ -80,8 +80,8 @@ if __name__ == "__main__":
 
     gamemode = draw_game_start(screen)
 
-    # board123 = board.Board(700, 700, screen, 1)
-    # board123.draw()
+    board123 = board.Board(700, 700, screen, 1)
+    board123.draw()
 
     screen.fill(BG_COLOR)
 

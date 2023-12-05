@@ -1,7 +1,5 @@
 import pygame
-
-black = (0, 0, 0)
-c_size = 700 / 9
+from constants import *
 
 
 class Cell:
@@ -25,9 +23,9 @@ class Cell:
     def draw(self):
         num_font = pygame.font.Font(None, 70)  # Change the size
         if self.value != 0:
-            num_surf = num_font.render(str(self.value), 0, black)
+            num_surf = num_font.render(str(self.value), 0, FONT_COLOR)
             num_rect = num_surf.get_rect(
-                center=(c_size * self.col + c_size // 2, c_size * self.row + c_size // 2))
+                center=(WIDTH * self.col + WIDTH // 2, HEIGHT * self.row + HEIGHT // 2))
             self.screen.blit(num_surf, num_rect)
 
 
