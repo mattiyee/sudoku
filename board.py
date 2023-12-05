@@ -9,15 +9,22 @@ class Board:
         self.height = height
         self.screen = screen # or = pygame.display.set_mode((self.width, self.height + 100))
         self.difficulty = difficulty
-        if difficulty == 'Easy':
-            self.board = SudokuGenerator(9, 30)
-        elif difficulty == 'Medium':
-            self.board = SudokuGenerator(9, 40)
-        elif difficulty == 'Hard':
-            self.board = SudokuGenerator(9, 50)
         # self.updated_board = self.board
+        self.board = None
+        self.answer_board = None
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         self.selected = None
+
+    def initialize_board(self):
+        if self.difficulty == 'Easy':
+            self.board = SudokuGenerator(9, 30)
+        elif self.difficulty == 'Medium':
+            self.board = SudokuGenerator(9, 40)
+        elif self.difficulty == 'Hard':
+            self.board = SudokuGenerator(9, 50)
+        self.board.fill_values()
+        self.answer_board = self.board.get_board()
+        self.board.removed_cells()
 
     def draw(self):
         for num in range(0, 10): # for each row and column, draw a line
@@ -55,9 +62,9 @@ class Board:
         self.selected.draw()
 
     def click(self, x, y):
-        if 0 < x < self.width:
-            if 0 < y < self.height:
-                return int(x // (self.width / 9)), int(y // (self.height / 9))
+        if 0 <= x <= self.width:
+            if 0 <= y <= self.height:
+                return int(y // (self.width / 9)), int(x // (self.height / 9))
         return None
 
     def clear(self):
@@ -73,13 +80,20 @@ class Board:
         pass
 
     def is_full(self):
-        pass
+        for row in self.board:
+            if 0 in row:
+                return False
+        return True
 
     def update_board(self):
         pass
 
     def find_empty(self):
-        pass
+        for row in self.board:
+            if 0 in row:
+                return row.index(0), self.board.index(row)
 
     def check_board(self):
-        pass
+        if self.board == self.answer_board:
+            return True
+        return False
