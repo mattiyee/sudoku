@@ -1,4 +1,6 @@
-import pygame, sys, board
+import pygame, sys
+from pygame.locals import *
+from SudokuProject import board
 from sudoku_generator import SudokuGenerator
 from constants import *
 
@@ -133,8 +135,26 @@ def draw_game_over(screen, status):
                 elif rectangle_reset.collidepoint(event.pos):
                     return draw_game_start(screen)
         pygame.display.update()
-
 # Function that draws the game over screen
+
+
+def board_buttons(screen):
+    surface_reset.fill(BUTTON_COLOR)
+    surface_reset.blit(surface_reset, (10, 10))
+    screen.blit(surface_reset, rectangle_reset)
+    screen.blit(reset_text, (283, 822))
+
+    surface_quit.fill(BUTTON_COLOR)
+    surface_quit.blit(surface_quit, (10, 10))
+    screen.blit(surface_quit, rectangle_quit)
+    screen.blit(quit_text, (544, 822))
+
+
+def menu(screen):
+    screen.fill(SUDOKU_BG_COLOR)
+    sudoku_board.initialize_board()
+    sudoku_board.draw()
+    board_buttons(screen)
 
 
 if __name__ == "__main__":
@@ -142,15 +162,17 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((900, 900))
     pygame.display.set_caption("Sudoku")
 
-    gamemode = draw_game_start(screen)
-    screen.fill(BG_COLOR)
+    font_button = pygame.font.Font(None, 45)
+    reset_text = font_button.render("Reset", 0, LINE_COLOR)
+    quit_text = font_button.render("Quit", 0, LINE_COLOR)
+    surface_reset = pygame.Surface((reset_text.get_size()[0] + 45, reset_text.get_size()[1] + 35))
+    surface_quit = pygame.Surface((quit_text.get_size()[0] + 65, quit_text.get_size()[1] + 35))
+    rectangle_reset = surface_reset.get_rect(center=(WIDTH // 2 - 125, HEIGHT // 2 + 385))
+    rectangle_quit = surface_quit.get_rect(center=(WIDTH // 2 + 125, HEIGHT // 2 + 385))
 
-    board123 = board.Board(700, 700, screen, 1)
-    board123.draw()
-
+    sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
+    menu(screen)
     square_size = 700
-    # Call draw_game_start()
-    # draw_game_start(screen)
 
     while True:
         for event in pygame.event.get():
@@ -158,12 +180,15 @@ if __name__ == "__main__":
                 pygame.quit()
                 sys.exit()
             pygame.display.update()
-            #  if event.type == pygame.display.set_mode(900, 900)
-
-            # sudoku_board = board.Board(700, 700, screen, gamemode)
-            # sudoku_board.initialize_board()
-            # sudoku_board.draw()
-            # FIXME: Produces TypeError
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                print(x, y)
+                if rectangle_reset.collidepoint(event.pos):
+                    sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
+                    menu(screen)
+                elif rectangle_quit.collidepoint(event.pos):
+                    sys.exit()
+            # if event.type == pygame.display.set_mode(900, 900)
 
             '''
             if sudoku_board.check_board() == True:
