@@ -1,8 +1,9 @@
 import pygame, sys
 from pygame.locals import *
 from SudokuProject import board
-from sudoku_generator import SudokuGenerator
+from sudoku_generator import *
 from constants import *
+from cell import Cell
 
 
 def draw_game_start(screen):
@@ -181,15 +182,45 @@ if __name__ == "__main__":
                 sys.exit()
             pygame.display.update()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                square = sudoku_board.click(x, y)
-                print(square)
+                x, y = pygame.mouse.get_pos()  # x = col, y = row
 
                 if rectangle_reset.collidepoint(event.pos):
                     sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
                     menu(screen)
-                elif rectangle_quit.collidepoint(event.pos):
+                if rectangle_quit.collidepoint(event.pos):
                     sys.exit()
+
+                square_num = 0
+                x, y = sudoku_board.click(x, y)
+                screen.fill(SUDOKU_BG_COLOR)
+                sudoku_board.draw()
+                board_buttons(screen)
+                sudoku_board.select(x, y, square_num)
+                print(x, y)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    square_num = 1
+                elif event.key == pygame.K_2:
+                    square_num = 2
+                elif event.key == pygame.K_3:
+                    square_num = 3
+                elif event.key == pygame.K_4:
+                    square_num = 4
+                elif event.key == pygame.K_5:
+                    square_num = 5
+                elif event.key == pygame.K_6:
+                    square_num = 6
+                elif event.key == pygame.K_7:
+                    square_num = 7
+                elif event.key == pygame.K_8:
+                    square_num = 8
+                elif event.key == pygame.K_9:
+                    square_num = 9
+                else:
+                    square_num = 0
+                sudoku_board.select(x, y, square_num)
+
             # if event.type == pygame.display.set_mode(900, 900)
 
             '''
