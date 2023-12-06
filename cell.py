@@ -70,6 +70,7 @@ class Cell:
 
         # Change the size
         if self.value != 0:
+            print(self.col, self.row)
             num_surf = num_font.render(f"{self.value}", 0, FONT_COLOR)
             num_rect = num_surf.get_rect(center=(x_points[self.col - 1] + 37, y_points[self.row - 1] + 37))
             self.screen.blit(num_surf, num_rect)
