@@ -5,7 +5,7 @@ from constants import *
 
 
 class Board:
-    def __init__(self, width, height, screen, difficulty): # initializes variables
+    def __init__(self, width, height, screen, difficulty):  # initializes variables
         self.width = width
         self.height = height
         self.screen = screen
@@ -30,6 +30,12 @@ class Board:
         self.cells = [[Cell(self.board, i, j, self.screen) for j in range(9)] for i in range(9)]
         self.board.print_board()  # debugging
 
+        # Added: (initializes cell data)
+        for i in range(9):
+            for j in range(9):
+                fixed = self.answer_board[i][j] != 0
+                self.cells[i][j] = Cell(self.board[i][j], j, i, self.screen, is_fixed=fixed)
+
     def draw(self):
         font_title = pygame.font.Font(None, 45)
         font_difficulty = pygame.font.Font(None, 30)
@@ -45,8 +51,8 @@ class Board:
         rectangle_difficulty = surface_difficulty.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 379))
         self.screen.blit(surface_difficulty, rectangle_difficulty)
 
-        for num in range(0, 10): # for each row and column, draw a line
-            if num % 3 == 0: # every third line should be bolded
+        for num in range(0, 10):  # for each row and column, draw a line
+            if num % 3 == 0:  # every third line should be bolded
                 pygame.draw.line(
                     self.screen,
                     LINE_COLOR,
@@ -62,7 +68,7 @@ class Board:
                     (self.height / 12 * num + 112.5, 777),
                     6
                 )
-            else: # if row/column not divisible by 3, then it should print a normal line
+            else:  # if row/column not divisible by 3, then it should print a normal line
                 pygame.draw.line(
                     self.screen,
                     LINE_COLOR,
@@ -78,20 +84,29 @@ class Board:
 
         for r in range(9):
             for c in range(9):
-                # FIXME: self.value should output an integer from the list that will print onto the board through func
-                # FIXME: These functions require a condition so they cannot be changed through user input
-                #   (cannot type in the box)
-                if self.value == 0:
-                    continue
-                else:
-                    num_surf = num_font.render(f"{self.value}", 0, FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c - 1] + 37, y_points[r - 1] + 37))
+
+                # Added (Works):
+                cell = self.cells[r][c]
+
+                if cell.sketched_value != 0:
+                    num_surf = num_font.render(f'{cell.sketched_value}', 0, SKETCH_COLOR)
+                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
 
-    def select(self, col, row, value):
+                if cell.value != 0:
+                    num_surf = num_font.render(f'{cell.value}', 0, FONT_COLOR)
+                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
+                    self.screen.blit(num_surf, num_rect)
+
+    def select(self, col, row, value):  # (still working on)
+
+        # Added:
+        if self.cells[row][col].is_editable():
+            return
+
         self.value = value
-        self.selected = Cell(self.value, col, row, self.screen)
-        self.selected.draw()
+        self.selected = (col, row)
+        self.draw()
 
     def click(self, x, y):
         x_points = [111, 186, 261, 336, 411, 486, 561, 636, 711, 786]
