@@ -25,6 +25,31 @@ class Cell:
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
+        # Red outline
+
+        # Left edge
+        pygame.draw.line(self.screen,
+                         BOX_COLOR,
+                         ((x_points[self.col]) + 3, y_points[self.row]),
+                         ((x_points[self.col]) + 3, (y_points[self.row+1]) - 6), 7)
+
+        # Top edge
+        pygame.draw.line(self.screen,
+                         BOX_COLOR,
+                         ((x_points[self.col]) + 3, (y_points[self.row]) + 1),
+                         ((x_points[self.col+1]), (y_points[self.row]) + 1), 7)
+        # Right edge
+        pygame.draw.line(self.screen,
+                         BOX_COLOR,
+                         ((x_points[self.col+1] - 2), y_points[self.row]),
+                         ((x_points[self.col+1] - 2), (y_points[self.row+1]) - 6), 7)
+
+        # Bottom edge
+        pygame.draw.line(self.screen,
+                         BOX_COLOR,
+                         ((x_points[self.col]) + 3, (y_points[self.row+1]) - 6),
+                         ((x_points[self.col+1]), (y_points[self.row+1]) - 6), 7)
+        '''
         pygame.draw.line(self.screen,
                          BOX_COLOR,
                          ((x_points[self.col-1]) + 3, y_points[self.row-1]),
@@ -41,6 +66,7 @@ class Cell:
                          BOX_COLOR,
                          ((x_points[self.col-1]) + 3, (y_points[self.row]) - 6),
                          ((x_points[self.col]), (y_points[self.row]) - 6), 7)
+        '''
 
         # Change the size
         if self.value != 0:

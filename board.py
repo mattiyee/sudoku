@@ -19,7 +19,8 @@ class Board:
 
     def initialize_board(self):
         if self.difficulty == 'Easy':
-            self.board = SudokuGenerator(9, 30)
+            self.board = SudokuGenerator(9, 1)
+            # Change back to 30 after debugging
         elif self.difficulty == 'Medium':
             self.board = SudokuGenerator(9, 40)
         elif self.difficulty == 'Hard':
