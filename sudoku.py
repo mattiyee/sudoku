@@ -1,11 +1,12 @@
 import pygame, sys
 from pygame.locals import *
-from SudokuProject import board
+from board import Board
 from sudoku_generator import *
 from constants import *
 from cell import Cell
 
 
+# Function that draws the game start screen
 def draw_game_start(screen):
     font_start = pygame.font.Font(None, 100)
     font_authors = pygame.font.Font(None, 30)
@@ -79,8 +80,6 @@ def draw_game_start(screen):
                 elif rectangle_hard.collidepoint(event.pos):
                     return "Hard"
         pygame.display.update()
-# Function that draws the game start screen
-
 
 def draw_game_over(screen, status):
     font_game = pygame.font.Font(None, 100)
@@ -153,8 +152,7 @@ def board_buttons(screen):
 
 def menu(screen):
     screen.fill(SUDOKU_BG_COLOR)
-    sudoku_board.initialize_board()
-    sudoku_board.draw()
+
     board_buttons(screen)
 
 
@@ -171,21 +169,28 @@ if __name__ == "__main__":
     rectangle_reset = surface_reset.get_rect(center=(WIDTH // 2 - 125, HEIGHT // 2 + 385))
     rectangle_quit = surface_quit.get_rect(center=(WIDTH // 2 + 125, HEIGHT // 2 + 385))
 
-    sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
+
+
+    sudoku_board = Board(900, 900, screen, draw_game_start(screen))
+    sudoku_board.initialize_board()
+    # sudoku_board.print_board()
+    sudoku_board.draw()
     menu(screen)
     square_size = 700
+    game_over = False
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            pygame.display.update()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+
+            # User clicks on cell
+            if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
                 x, y = pygame.mouse.get_pos()  # x = col, y = row
 
                 if rectangle_reset.collidepoint(event.pos):
-                    sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
+                    sudoku_board = Board(900, 900, screen, draw_game_start(screen))
                     menu(screen)
                 if rectangle_quit.collidepoint(event.pos):
                     sys.exit()
@@ -196,8 +201,10 @@ if __name__ == "__main__":
                 sudoku_board.draw()
                 board_buttons(screen)
                 sudoku_board.select(x, y, square_num)
-                print(x, y)
+                # print(x, y)
 
+
+            # User types number on keyboard
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     square_num = 1
@@ -217,13 +224,23 @@ if __name__ == "__main__":
                     square_num = 8
                 elif event.key == pygame.K_9:
                     square_num = 9
-                else:
-                    square_num = 0
-                sudoku_board.select(x, y, square_num)
+                # sudoku_board.select(x, y, square_num)
+                sudoku_board.place_number(square_num)
+                sudoku_board.update_board()
 
-            # if event.type == pygame.display.set_mode(900, 900)
+            # User deletes number in cell
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
+                sudoku_board.clear()
+                sudoku_board.update_board()
+                game_over = False
 
-            '''
+        if game_over:
+            pygame.display.update()
+            draw_game_over(screen)
+
+        pygame.display.update()
+
+        '''
             if sudoku_board.check_board() == True:
                 draw_game_over(screen, 1)
             if sudoku_board.check_board == False:
