@@ -100,10 +100,14 @@ class Board:
         # return None
 
     def clear(self):
-        pass
+        if self.selected:
+            row, col = self.selected.row, self.selected.col
+            self.board[row][col] = 0
 
     def sketch(self, value):
-        pass
+        if self.selected:
+            row, col = self.selected.row, self.selected.col
+            self.board[row][col] = value
 
     def place_number(self, value):
         pass
