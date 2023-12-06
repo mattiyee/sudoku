@@ -169,8 +169,6 @@ if __name__ == "__main__":
     rectangle_reset = surface_reset.get_rect(center=(WIDTH // 2 - 125, HEIGHT // 2 + 385))
     rectangle_quit = surface_quit.get_rect(center=(WIDTH // 2 + 125, HEIGHT // 2 + 385))
 
-
-
     sudoku_board = Board(900, 900, screen, draw_game_start(screen))
     sudoku_board.initialize_board()
     sudoku_board.draw()
@@ -235,8 +233,6 @@ if __name__ == "__main__":
                 # sudoku_board.select(x, y, square_num)
                 sudoku_board.place_number(square_num)
                 sudoku_board.update_board()
-
-
 
         if game_over:
             pygame.display.update()
