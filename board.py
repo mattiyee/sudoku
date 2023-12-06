@@ -1,6 +1,6 @@
 import pygame
 from cell import Cell
-from sudoku_generator import SudokuGenerator
+from sudoku_generator import *
 from constants import *
 
 
@@ -14,6 +14,7 @@ class Board:
         self.cells = None
         self.board = None
         self.answer_board = None
+        self.value = 0
         self.selected = None
 
     def initialize_board(self):
@@ -27,10 +28,14 @@ class Board:
         self.answer_board = self.board.get_board()
         self.board.remove_cells()
         self.cells = [[Cell(self.board, i, j, self.screen) for j in range(9)] for i in range(9)]
+        self.board.print_board()  # debugging
 
     def draw(self):
         font_title = pygame.font.Font(None, 45)
         font_difficulty = pygame.font.Font(None, 30)
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
         surface_title = font_title.render("Sudoku", 0, LINE_COLOR)
         rectangle_title = surface_title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 410))
@@ -71,8 +76,21 @@ class Board:
                     (self.height / 12 * num + 112.5, 777),
                 )
 
-    def select(self, row, col):
-        self.selected = Cell(self.board[row][col], row, col, self.screen)  # Need to define __getitem__()
+        for r in range(9):
+            for c in range(9):
+                # FIXME: self.value should output an integer from the list that will print onto the board through func
+                # FIXME: These functions require a condition so they cannot be changed through user input
+                #   (cannot type in the box)
+                if self.value == 0:
+                    continue
+                else:
+                    num_surf = num_font.render(f"{self.value}", 0, FONT_COLOR)
+                    num_rect = num_surf.get_rect(center=(x_points[c - 1] + 37, y_points[r - 1] + 37))
+                    self.screen.blit(num_surf, num_rect)
+
+    def select(self, col, row, value):
+        self.value = value
+        self.selected = Cell(self.value, col, row, self.screen)
         self.selected.draw()
 
     def click(self, x, y):
@@ -93,11 +111,6 @@ class Board:
                     row += 1
             return col, row
         return None
-
-        # if 115 <= x <= 787:
-            # if 104 <= y <= 775:
-                # return int(y // (self.width / 12)), int(x // (self.height / 12))
-        # return None
 
     def clear(self):
         if self.selected:
