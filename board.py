@@ -19,7 +19,7 @@ class Board:
 
     def initialize_board(self):
         if self.difficulty == 'Easy':
-            self.board = SudokuGenerator(9, 1)
+            self.board = SudokuGenerator(9, 30)
             # Change back to 30 after debugging
         elif self.difficulty == 'Medium':
             self.board = SudokuGenerator(9, 40)
@@ -31,6 +31,7 @@ class Board:
         self.original_board = self.board.get_board()
         self.board = self.board.get_board()
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
+        # self.board.print_board()  # debugging
 
     def draw(self):
         font_title = pygame.font.Font(None, 45)
@@ -85,11 +86,11 @@ class Board:
                 #   (cannot type in the box)
                 if self.board[r][c] == 0:
                     num_surf = num_font.render("", 0, FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c - 1] + 37, y_points[r - 1] + 37))
+                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
                 else:
                     num_surf = num_font.render(f"{self.board[r][c]}", 0, FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c - 1] + 37, y_points[r - 1] + 37))
+                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
 
                 # Changed self.board to list
@@ -136,7 +137,6 @@ class Board:
     # Update self.board 2D list with integers
     def place_number(self, value):
         r, c = self.selected.row, self.selected.col
-        print(r, c)
         if self.board[r][c] == 0:
             self.board[r][c] = value
 
@@ -153,14 +153,6 @@ class Board:
     # Update self.cells 2D list with Cell objects
     def update_board(self):
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
-        '''for row in range(self.height):
-            for col in range(self.width):
-                current_cell = self.cells[row][col]
-                if current_cell.sketched_value == 0:
-                    value = current_cell.value
-                else:
-                    value = current_cell.sketched_value
-                self.cells[row][col].set_cell_value(value)'''
 
     def find_empty(self):
         for row in self.board:

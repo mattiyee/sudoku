@@ -169,12 +169,15 @@ if __name__ == "__main__":
     rectangle_reset = surface_reset.get_rect(center=(WIDTH // 2 - 125, HEIGHT // 2 + 385))
     rectangle_quit = surface_quit.get_rect(center=(WIDTH // 2 + 125, HEIGHT // 2 + 385))
 
+
+
     sudoku_board = Board(900, 900, screen, draw_game_start(screen))
     sudoku_board.initialize_board()
     sudoku_board.draw()
     menu(screen)
     square_size = 700
     game_over = False
+    win = False
 
     while True:
         for event in pygame.event.get():
@@ -200,7 +203,8 @@ if __name__ == "__main__":
                 screen.fill(SUDOKU_BG_COLOR)
                 sudoku_board.draw()
                 board_buttons(screen)
-                sudoku_board.select(x, y, square_num)
+                sudoku_board.select(x-1, y-1, square_num)
+                # Hopefully change this and change red outline function
                 # print(x, y)
 
             # User deletes number in cell
@@ -234,9 +238,25 @@ if __name__ == "__main__":
                 sudoku_board.place_number(square_num)
                 sudoku_board.update_board()
 
+            if sudoku_board.is_full():
+                if sudoku_board.check_board():
+                    game_over = True
+                    win = True
+                    break
+                else:
+                    game_over = True
+                    win = False
+                    break
+
+
+        # This function doesn't work, always prints the first game_over regardless of win or lose
         if game_over:
             pygame.display.update()
-            draw_game_over(screen)
+            if win:
+                draw_game_over(screen, 1)
+            else:
+                draw_game_over(screen, 2)
+
 
         pygame.display.update()
 
