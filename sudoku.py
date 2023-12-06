@@ -182,7 +182,9 @@ if __name__ == "__main__":
             pygame.display.update()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
-                print(x, y)
+                square = sudoku_board.click(x, y)
+                print(square)
+
                 if rectangle_reset.collidepoint(event.pos):
                     sudoku_board = board.Board(900, 900, screen, draw_game_start(screen))
                     menu(screen)

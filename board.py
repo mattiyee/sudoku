@@ -41,7 +41,6 @@ class Board:
         self.screen.blit(surface_difficulty, rectangle_difficulty)
 
         for num in range(0, 10): # for each row and column, draw a line
-
             if num % 3 == 0: # every third line should be bolded
                 pygame.draw.line(
                     self.screen,
@@ -58,8 +57,7 @@ class Board:
                     (self.height / 12 * num + 112.5, 777),
                     6
                 )
-
-            # if row/column not divisible by 3, then it should print a normal line
+            else: # if row/column not divisible by 3, then it should print a normal line
                 pygame.draw.line(
                     self.screen,
                     LINE_COLOR,
@@ -78,10 +76,28 @@ class Board:
         self.selected.draw()
 
     def click(self, x, y):
-        if 110 <= x <= 790:
-            if 95 <= y <= 777:
-                return int(y // (self.width / 12)), int(x // (self.height / 12))
+        x_points = [111, 186, 261, 336, 411, 486, 561, 636, 711, 786]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
+
+        col, row = 0, 0
+        if 111 <= x <= 786 and 104 <= y <= 779:
+            for num in range(10):
+                if x_points[num - 1] <= x <= x_points[num]:
+                    break
+                else:
+                    col += 1
+            for num in range(10):
+                if y_points[num - 1] <= y <= y_points[num]:
+                    break
+                else:
+                    row += 1
+            return col, row
         return None
+
+        # if 115 <= x <= 787:
+            # if 104 <= y <= 775:
+                # return int(y // (self.width / 12)), int(x // (self.height / 12))
+        # return None
 
     def clear(self):
         pass
