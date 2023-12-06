@@ -24,7 +24,7 @@ def draw_game_start(screen):
     screen.blit(surface_title, rectangle_title)
 
     surface_authors = font_authors.render(
-        "Created by Preston Hemmy, Thurstan Ngo, Ephraim Nicolas, and Matthew Yee", 0, LINE_COLOR)
+        "Created by Matthew Yee, Thurstan Ngo, Ephraim Nicolas, and Preston Hemmy", 0, LINE_COLOR)
     rectangle_authors = surface_authors.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 135))
     screen.blit(surface_authors, rectangle_authors)
 
@@ -173,7 +173,6 @@ if __name__ == "__main__":
 
     sudoku_board = Board(900, 900, screen, draw_game_start(screen))
     sudoku_board.initialize_board()
-    # sudoku_board.print_board()
     sudoku_board.draw()
     menu(screen)
     square_size = 700
@@ -187,15 +186,18 @@ if __name__ == "__main__":
 
             # User clicks on cell
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
-                x, y = pygame.mouse.get_pos()  # x = col, y = row
-
                 if rectangle_reset.collidepoint(event.pos):
                     sudoku_board = Board(900, 900, screen, draw_game_start(screen))
+                    sudoku_board.initialize_board()
+                    sudoku_board.draw()
                     menu(screen)
+                    square_size = 700
+                    game_over = False
                 if rectangle_quit.collidepoint(event.pos):
                     sys.exit()
 
                 square_num = 0
+                x, y = pygame.mouse.get_pos()  # x = col, y = row
                 x, y = sudoku_board.click(x, y)
                 screen.fill(SUDOKU_BG_COLOR)
                 sudoku_board.draw()
@@ -203,6 +205,12 @@ if __name__ == "__main__":
                 sudoku_board.select(x, y, square_num)
                 # print(x, y)
 
+            # User deletes number in cell
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
+                sudoku_board.clear()
+                sudoku_board.update_board()
+                sudoku_board.draw()
+                game_over = False
 
             # User types number on keyboard
             if event.type == pygame.KEYDOWN:
@@ -228,11 +236,7 @@ if __name__ == "__main__":
                 sudoku_board.place_number(square_num)
                 sudoku_board.update_board()
 
-            # User deletes number in cell
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
-                sudoku_board.clear()
-                sudoku_board.update_board()
-                game_over = False
+
 
         if game_over:
             pygame.display.update()

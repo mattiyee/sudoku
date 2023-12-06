@@ -124,9 +124,9 @@ class Board:
         return None
 
     def clear(self):
-        if self.selected:
-            row, col = self.selected.row, self.selected.col
-            self.board[row][col] = 0
+        r, c = self.selected.row, self.selected.col
+        if self.board[r][c] != 0 and self.original_board[r][c] == 0:
+            self.board[r][c] = 0
 
     def sketch(self, value):
         if self.selected:
@@ -135,7 +135,9 @@ class Board:
 
     # Update self.board 2D list with integers
     def place_number(self, value):
-        self.board[self.selected.row][self.selected.col] = value
+        r, c = self.selected.row, self.selected.col
+        if self.board[r][c] == 0:
+            self.board[r][c] = value
 
     # Resets the board
     def reset_to_original(self):
