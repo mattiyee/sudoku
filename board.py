@@ -72,7 +72,7 @@ class Board:
                 )
 
     def select(self, row, col):
-        self.selected = Cell(self.board[row][col], row, col, self.screen)
+        self.selected = Cell(self.board[row][col], row, col, self.screen)  # Need to define __getitem__()
         self.selected.draw()
 
     def click(self, x, y):
