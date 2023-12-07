@@ -11,9 +11,12 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         self.cells = []
+        self.sketched_cells = []
         self.board = None
         self.original_board = None
         self.answer_board = None
+        self.sketched_board = None
+        self.sketched_value = 0
         self.value = 0
         self.selected = None
 
@@ -29,16 +32,15 @@ class Board:
         self.answer_board = self.board.get_board()
         self.board.remove_cells()
         self.original_board = copy.deepcopy(self.board.get_board())
+        self.sketched_board = copy.deepcopy(self.board.get_board())
         self.board = copy.deepcopy(self.board.get_board())
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
+        self.sketched_cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         # self.board.print_board()  # debugging
 
     def draw(self):
         font_title = pygame.font.Font(None, 45)
         font_difficulty = pygame.font.Font(None, 30)
-        num_font = pygame.font.Font(None, 70)
-        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
-        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
         surface_title = font_title.render("Sudoku", 0, LINE_COLOR)
         rectangle_title = surface_title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 410))
@@ -79,29 +81,28 @@ class Board:
                     (self.height / 12 * num + 112.5, 777),
                 )
 
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
+
         for r in range(9):
             for c in range(9):
-                # FIXME: self.value should output an integer from the list that will print onto the board through func
-                # FIXME: These functions require a condition so they cannot be changed through user input
-                #   (cannot type in the box)
-                if self.board[r][c] == int(0):
-                    num_surf = num_font.render(" ", 0, FONT_COLOR)
+                if self.sketched_board[r][c] == int(0):
+                    num_surf = num_font.render("", 0, FONT_COLOR)
                     num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
-                else:
+                elif self.sketched_board[r][c] == self.board[r][c] and not int(0):
                     num_surf = num_font.render(f"{self.board[r][c]}", 0, FONT_COLOR)
                     num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
-
-                # Changed self.board to list
-                # self.board is a SudokuGenerator object
-                    # Threw a type error whenever tried to index SudokuGenerator object
-                # self.board.get_board() is a list
-                # Should've used get_board() while assigning SudokuGenerator object to self.board
+                elif self.sketched_board[r][c] != self.board[r][c] and not int(0):
+                    num_surf = num_font.render(f"{self.sketched_board[r][c]}", 0, SKETCHED_FONT_COLOR)
+                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
+                    self.screen.blit(num_surf, num_rect)
 
     def select(self, col, row, value):
-        self.value = value
-        self.selected = Cell(self.value, col, row, self.screen)
+        self.sketched_value = value
+        self.selected = Cell(self.sketched_value, col, row, self.screen)
         self.selected.draw()
 
     def click(self, x, y):
@@ -130,27 +131,35 @@ class Board:
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
         r, c = self.selected.row, self.selected.col
 
-        if self.board[r][c] != 0 and self.original_board[r][c] == 0:
-            self.board[r][c] = int(0)
+        if self.sketched_board[r][c] != 0 and self.original_board[r][c] == 0:
+            self.sketched_board[r][c] = int(0)
             num_surf = num_font.render("", 0, FONT_COLOR)
             num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
             self.screen.blit(num_surf, num_rect)
+
             pygame.display.update()
 
     def sketch(self, value):
-        if self.selected:
-            row, col = self.selected.row, self.selected.col
-            # self.selected
-
-    # Update self.board 2D list with integers
-    def place_number(self, value):
         num_font = pygame.font.Font(None, 70)
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
         r, c = self.selected.row, self.selected.col
 
-        if self.board[r][c] == 0:
-            self.board[r][c] = value
+        if self.sketched_board[r][c] == 0:
+            self.sketched_board[r][c] = value
+        num_surf = num_font.render(f"{self.sketched_board[r][c]}", 0, SKETCHED_FONT_COLOR)
+        num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
+        self.screen.blit(num_surf, num_rect)
+
+    # Update self.board 2D list with integers
+    def place_number(self):
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
+        r, c = self.selected.row, self.selected.col
+
+        self.board[r][c] = self.sketched_board[r][c]
+
         num_surf = num_font.render(f"{self.board[r][c]}", 0, FONT_COLOR)
         num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
         self.screen.blit(num_surf, num_rect)
@@ -167,6 +176,7 @@ class Board:
 
     # Update self.cells 2D list with Cell objects
     def update_board(self):
+        self.sketched_cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
 
     def find_empty(self):
@@ -175,6 +185,9 @@ class Board:
                 return row.index(0), self.board.index(row)
 
     def check_board(self):
-        if self.board == self.answer_board:
+        if self.answer_board != self.board:
+            return False
+        elif self.answer_board == self.board:
             return True
-        return False
+        # FIXME: Always returns False regardless of output
+

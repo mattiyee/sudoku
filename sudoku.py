@@ -94,11 +94,11 @@ def draw_game_over(screen, status):
     screen.blit(background, (0, 0))
 
     if status == 1:
-        text = "Game Over! :("
-        subtext = "Better luck next time!"
-    elif status == 2:
         text = "Game Won!"
         subtext = "You completed the board successfully!"
+    elif status == 2:
+        text = "Game Over! :("
+        subtext = "Better luck next time!"
 
     surface_game = font_game.render(text, 0, LINE_COLOR)
     rectangle_game = surface_game.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
@@ -152,7 +152,6 @@ def board_buttons(screen):
 
 def menu(screen):
     screen.fill(SUDOKU_BG_COLOR)
-
     board_buttons(screen)
 
 
@@ -210,40 +209,47 @@ if __name__ == "__main__":
             if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
                 sudoku_board.clear()
                 sudoku_board.update_board()
+                menu(screen)
+                sudoku_board.draw()
                 game_over = False
 
-            # User types number on keyboard
+            # User types a sketched number on keyboard
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
-                    square_num = 1
+                    sudoku_board.sketch(1)
                 elif event.key == pygame.K_2:
-                    square_num = 2
+                    sudoku_board.sketch(2)
                 elif event.key == pygame.K_3:
-                    square_num = 3
+                    sudoku_board.sketch(3)
                 elif event.key == pygame.K_4:
-                    square_num = 4
+                    sudoku_board.sketch(4)
                 elif event.key == pygame.K_5:
-                    square_num = 5
+                    sudoku_board.sketch(5)
                 elif event.key == pygame.K_6:
-                    square_num = 6
+                    sudoku_board.sketch(6)
                 elif event.key == pygame.K_7:
-                    square_num = 7
+                    sudoku_board.sketch(7)
                 elif event.key == pygame.K_8:
-                    square_num = 8
+                    sudoku_board.sketch(8)
                 elif event.key == pygame.K_9:
-                    square_num = 9
+                    sudoku_board.sketch(9)
                 # sudoku_board.select(x, y, square_num)
-                sudoku_board.place_number(square_num)
+                sudoku_board.update_board()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                sudoku_board.place_number()
                 sudoku_board.update_board()
 
             if sudoku_board.is_full():
                 if sudoku_board.check_board():
                     game_over = True
                     win = True
+                    print(win)
                     break
                 else:
                     game_over = True
                     win = False
+                    print(win)
                     break
 
 
