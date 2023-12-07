@@ -20,16 +20,16 @@ class Board:
         self.value = 0
         self.selected = None
 
+    # Initializes self.board and other variables related to self.board
     def initialize_board(self):
         if self.difficulty == 'Easy':
-            self.board = SudokuGenerator(9, 30)
-            # Change back to 30 after debugging
+            self.board = SudokuGenerator(9, 1)
         elif self.difficulty == 'Medium':
             self.board = SudokuGenerator(9, 40)
         elif self.difficulty == 'Hard':
             self.board = SudokuGenerator(9, 50)
         self.board.fill_values()
-        self.answer_board = self.board.get_board()
+        self.answer_board = copy.deepcopy(self.board.get_board())
         self.board.remove_cells()
         self.original_board = copy.deepcopy(self.board.get_board())
         self.sketched_board = copy.deepcopy(self.board.get_board())
@@ -38,6 +38,7 @@ class Board:
         self.sketched_cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         # self.board.print_board()  # debugging
 
+    # Draw the sudoku board
     def draw(self):
         font_title = pygame.font.Font(None, 45)
         font_difficulty = pygame.font.Font(None, 30)
@@ -50,6 +51,7 @@ class Board:
         rectangle_difficulty = surface_difficulty.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 379))
         self.screen.blit(surface_difficulty, rectangle_difficulty)
 
+        # Draw the sudoku grid
         for num in range(0, 10): # for each row and column, draw a line
             if num % 3 == 0: # every third line should be bolded
                 pygame.draw.line(
@@ -85,6 +87,7 @@ class Board:
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
+        # Draw the cells in the sudoku board that are filled with values
         for r in range(9):
             for c in range(9):
                 if self.sketched_board[r][c] == int(0):
@@ -100,11 +103,13 @@ class Board:
                     num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
 
+    # Selects the cell that the user has clicked on
     def select(self, col, row, value):
         self.sketched_value = value
         self.selected = Cell(self.sketched_value, col, row, self.screen)
         self.selected.draw()
 
+    # Returns the row and column for the cell the user has clicked on
     def click(self, x, y):
         x_points = [111, 186, 261, 336, 411, 486, 561, 636, 711, 786]
         # board x is bit wider compared to cell x
@@ -125,6 +130,7 @@ class Board:
             return col, row
         return None
 
+    # Clears the value at a cell
     def clear(self):
         num_font = pygame.font.Font(None, 70)
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
@@ -139,6 +145,7 @@ class Board:
 
             pygame.display.update()
 
+    # Sketches a value that is not final in a cell
     def sketch(self, value):
         num_font = pygame.font.Font(None, 70)
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
@@ -168,6 +175,7 @@ class Board:
     def reset_to_original(self):
         self.board = self.original_board
 
+    # Checks if the board is full
     def is_full(self):
         for row in self.board:
             if 0 in row:
@@ -179,15 +187,14 @@ class Board:
         self.sketched_cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
 
+    # Checks if there is a row with an emtpy cell
     def find_empty(self):
         for row in self.board:
             if 0 in row:
                 return row.index(0), self.board.index(row)
 
+    # Checks if the board is filled in correctly
     def check_board(self):
-        if self.answer_board != self.board:
-            return False
-        elif self.answer_board == self.board:
+        if self.board == self.answer_board:
             return True
-        # FIXME: Always returns False regardless of output
-
+        return False

@@ -9,8 +9,6 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for c in range(row_length)] for r in range(row_length)]
         self.box_length = int(math.sqrt(row_length))
-    # row_length = the number of rows/columns of the board (always 9 for this project)
-    # removed_cells = an integer value that contains the number of cells to be removed
 
     # Function that returns self.board
     def get_board(self):
@@ -149,9 +147,6 @@ class SudokuGenerator:
                 if self.board[row_index][col_index] != 0:
                     self.board[row_index][col_index] = 0
                     break
-
-    def __getitem__(self, item):
-        pass
 
 def generate_sudoku(size, removed):
     sudoku = SudokuGenerator(size, removed)
