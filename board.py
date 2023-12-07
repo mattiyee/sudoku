@@ -1,4 +1,4 @@
-import pygame, copy
+import pygame
 from cell import Cell
 from sudoku_generator import *
 from constants import *
@@ -36,21 +36,14 @@ class Board:
         self.board = copy.deepcopy(self.board.get_board())
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         self.sketched_cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
-        # self.board.print_board()  # debugging
 
-<<<<<<< HEAD
-        # Added: (initializes cell data)
-        for i in range(9):
-            for j in range(9):
-                fixed = self.answer_board[i][j] != 0
-                self.cells[i][j] = Cell(self.board[i][j], j, i, self.screen, is_fixed=fixed)
-
-=======
     # Draw the sudoku board
->>>>>>> e76d787bb601be449e8dbb95cbbca67d08193ae1
     def draw(self):
         font_title = pygame.font.Font(None, 45)
         font_difficulty = pygame.font.Font(None, 30)
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
         surface_title = font_title.render("Sudoku", 0, LINE_COLOR)
         rectangle_title = surface_title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 410))
@@ -60,14 +53,9 @@ class Board:
         rectangle_difficulty = surface_difficulty.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 379))
         self.screen.blit(surface_difficulty, rectangle_difficulty)
 
-<<<<<<< HEAD
+        # Draw the sudoku grid
         for num in range(0, 10):  # for each row and column, draw a line
             if num % 3 == 0:  # every third line should be bolded
-=======
-        # Draw the sudoku grid
-        for num in range(0, 10): # for each row and column, draw a line
-            if num % 3 == 0: # every third line should be bolded
->>>>>>> e76d787bb601be449e8dbb95cbbca67d08193ae1
                 pygame.draw.line(
                     self.screen,
                     LINE_COLOR,
@@ -97,14 +85,9 @@ class Board:
                     (self.height / 12 * num + 112.5, 777),
                 )
 
-        num_font = pygame.font.Font(None, 70)
-        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
-        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
-
         # Draw the cells in the sudoku board that are filled with values
         for r in range(9):
             for c in range(9):
-<<<<<<< HEAD
 
                 # Added (Works):
                 cell = self.cells[r][c]
@@ -119,45 +102,19 @@ class Board:
                     num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
 
-    def select(self, col, row, value):  # (still working on)
-
-        # Added:
-        if self.cells[row][col].is_editable():
-            return
-
-        self.value = value
-        self.selected = (col, row)
-        self.draw()
-=======
-                if self.sketched_board[r][c] == int(0):
-                    num_surf = num_font.render("", 0, FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
-                    self.screen.blit(num_surf, num_rect)
-                elif self.sketched_board[r][c] == self.board[r][c] and not int(0):
-                    num_surf = num_font.render(f"{self.board[r][c]}", 0, FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
-                    self.screen.blit(num_surf, num_rect)
-                elif self.sketched_board[r][c] != self.board[r][c] and not int(0):
-                    num_surf = num_font.render(f"{self.sketched_board[r][c]}", 0, SKETCHED_FONT_COLOR)
-                    num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
-                    self.screen.blit(num_surf, num_rect)
-
     # Selects the cell that the user has clicked on
-    def select(self, col, row, value):
+    def select(self, col, row, value):  # (still working on)
         self.sketched_value = value
         self.selected = Cell(self.sketched_value, col, row, self.screen)
         self.selected.draw()
->>>>>>> e76d787bb601be449e8dbb95cbbca67d08193ae1
 
-    # Returns the row and column for the cell the user has clicked on
     def click(self, x, y):
         x_points = [111, 186, 261, 336, 411, 486, 561, 636, 711, 786]
-        # board x is bit wider compared to cell x
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
 
         col, row = 0, 0
         if 111 <= x <= 786 and 104 <= y <= 779:
-            for num in range(10):  # originally 10 instead of 1,8
+            for num in range(10):
                 if x_points[num - 1] <= x <= x_points[num]:
                     break
                 else:
@@ -199,7 +156,7 @@ class Board:
         self.screen.blit(num_surf, num_rect)
 
     # Update self.board 2D list with integers
-    def place_number(self):
+    def place_number(self, value):
         num_font = pygame.font.Font(None, 70)
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
