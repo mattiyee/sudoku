@@ -23,7 +23,7 @@ class Board:
     # Initializes self.board and other variables related to self.board
     def initialize_board(self):
         if self.difficulty == 'Easy':
-            self.board = SudokuGenerator(9, 1)
+            self.board = SudokuGenerator(9, 30)
         elif self.difficulty == 'Medium':
             self.board = SudokuGenerator(9, 40)
         elif self.difficulty == 'Hard':
