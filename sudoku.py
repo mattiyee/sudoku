@@ -169,11 +169,10 @@ if __name__ == "__main__":
     rectangle_reset = surface_reset.get_rect(center=(WIDTH // 2 - 125, HEIGHT // 2 + 385))
     rectangle_quit = surface_quit.get_rect(center=(WIDTH // 2 + 125, HEIGHT // 2 + 385))
 
-
-
     sudoku_board = Board(900, 900, screen, draw_game_start(screen))
     sudoku_board.initialize_board()
     sudoku_board.draw()
+    pygame.display.update()
     menu(screen)
     square_size = 700
     game_over = False
@@ -208,10 +207,9 @@ if __name__ == "__main__":
                 # print(x, y)
 
             # User deletes number in cell
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
                 sudoku_board.clear()
                 sudoku_board.update_board()
-                sudoku_board.draw()
                 game_over = False
 
             # User types number on keyboard

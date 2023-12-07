@@ -1,4 +1,4 @@
-import pygame
+import pygame, copy
 from cell import Cell
 from sudoku_generator import *
 from constants import *
@@ -28,8 +28,8 @@ class Board:
         self.board.fill_values()
         self.answer_board = self.board.get_board()
         self.board.remove_cells()
-        self.original_board = self.board.get_board()
-        self.board = self.board.get_board()
+        self.original_board = copy.deepcopy(self.board.get_board())
+        self.board = copy.deepcopy(self.board.get_board())
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)] for i in range(9)]
         # self.board.print_board()  # debugging
 
@@ -84,8 +84,8 @@ class Board:
                 # FIXME: self.value should output an integer from the list that will print onto the board through func
                 # FIXME: These functions require a condition so they cannot be changed through user input
                 #   (cannot type in the box)
-                if self.board[r][c] == 0:
-                    num_surf = num_font.render("", 0, FONT_COLOR)
+                if self.board[r][c] == int(0):
+                    num_surf = num_font.render(" ", 0, FONT_COLOR)
                     num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
                     self.screen.blit(num_surf, num_rect)
                 else:
@@ -125,9 +125,17 @@ class Board:
         return None
 
     def clear(self):
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
         r, c = self.selected.row, self.selected.col
+
         if self.board[r][c] != 0 and self.original_board[r][c] == 0:
-            self.board[r][c] = 0
+            self.board[r][c] = int(0)
+            num_surf = num_font.render("", 0, FONT_COLOR)
+            num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
+            self.screen.blit(num_surf, num_rect)
+            pygame.display.update()
 
     def sketch(self, value):
         if self.selected:
@@ -136,9 +144,16 @@ class Board:
 
     # Update self.board 2D list with integers
     def place_number(self, value):
+        num_font = pygame.font.Font(None, 70)
+        x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
+        y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
         r, c = self.selected.row, self.selected.col
+
         if self.board[r][c] == 0:
             self.board[r][c] = value
+        num_surf = num_font.render(f"{self.board[r][c]}", 0, FONT_COLOR)
+        num_rect = num_surf.get_rect(center=(x_points[c] + 37, y_points[r] + 37))
+        self.screen.blit(num_surf, num_rect)
 
     # Resets the board
     def reset_to_original(self):
