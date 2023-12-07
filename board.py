@@ -1,4 +1,4 @@
-import pygame
+import pygame, copy
 from cell import Cell
 from sudoku_generator import *
 from constants import *
