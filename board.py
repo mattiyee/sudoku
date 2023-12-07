@@ -156,7 +156,7 @@ class Board:
         self.screen.blit(num_surf, num_rect)
 
     # Update self.board 2D list with integers
-    def place_number(self, value):
+    def place_number(self):
         num_font = pygame.font.Font(None, 70)
         x_points = [114, 186, 261, 334, 411, 486, 559, 636, 711, 784]
         y_points = [104, 179, 254, 329, 404, 479, 554, 629, 704, 779]
